@@ -17,6 +17,8 @@ type LoginFormProps = {
 	setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 export function LoginForm({ setIsLoggedIn }: LoginFormProps) {
 	const {
 		register,
@@ -28,7 +30,7 @@ export function LoginForm({ setIsLoggedIn }: LoginFormProps) {
 
 	const onSubmit: SubmitHandler<FormValues> = async (data) => {
 		try {
-			const response = await axios.post("http://localhost:3000/user/login", data);
+			const response = await axios.post(`${BACKEND_URL}/user/login`, data);
 			setIsLoggedIn(true);
 			toast({
 				description: response.data.message,

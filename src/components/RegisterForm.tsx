@@ -21,6 +21,8 @@ type FormValues = {
 	password: string;
 };
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const RegisterForm: React.FC = () => {
 	const {
 		register,
@@ -32,7 +34,7 @@ const RegisterForm: React.FC = () => {
 
 	const onSubmit: SubmitHandler<FormValues> = async (data) => {
 		try {
-			const response = await axios.post("http://localhost:3000/user/register", data);
+			const response = await axios.post(`${BACKEND_URL}/user/register`, data);
 			navigate("/login");
 			toast({
 				description: response.data.message,
