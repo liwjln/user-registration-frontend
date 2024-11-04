@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,13 +12,9 @@ type FormValues = {
 	password: string;
 };
 
-type LoginFormProps = {
-	setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export function LoginForm({ setIsLoggedIn }: LoginFormProps) {
+export function LoginForm() {
 	const {
 		register,
 		handleSubmit,
@@ -31,7 +26,11 @@ export function LoginForm({ setIsLoggedIn }: LoginFormProps) {
 	const onSubmit: SubmitHandler<FormValues> = async (data) => {
 		try {
 			const response = await axios.post(`${BACKEND_URL}/user/login`, data);
-			setIsLoggedIn(true);
+			const token = response.data.token;
+
+			localStorage.setItem("token", token);
+			window.dispatchEvent(new Event("storage"));
+
 			toast({
 				description: response.data.message,
 			});

@@ -2,16 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 
-type HomePageProps = {
-	setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const Home: React.FC<HomePageProps> = ({ setIsLoggedIn }) => {
+const Home: React.FC = () => {
 	const navigate = useNavigate();
 
 	const handleLogout = () => {
-		setIsLoggedIn(false);
-		localStorage.removeItem("isLoggedIn");
+		localStorage.removeItem("token");
+		// Trigger state update
+		window.dispatchEvent(new Event("storage"));
 		navigate("/login");
 	};
 
